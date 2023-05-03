@@ -14,16 +14,12 @@ void enable_raw_mode(void){
      atexit(disable_raw_mode);
      struct termios raw=orig_termios;
      raw.c_lflag &= ~(ECHO);
-     tcsetattr(STDIN_FILENO, TCSANOW, &raw);
+     tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 int main(void){
-      
-    uint8_t c;
-    uint8_t d='¶';
-    char y;
-    while(read(STDIN_FILENO, &c, 4) == 1 &&  c!=d);
-    // enable_raw_mode();
-    scanf("%c",&y);
-    printf("%c",y);
+    enable_raw_mode();
+    char c;
+    while(read(STDIN_FILENO, &c, 1) == 1 &&  c!='q');
+   
     return 0;
 }
